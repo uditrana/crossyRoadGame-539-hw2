@@ -2,42 +2,98 @@
 # Barebones timer, mouse, and keyboard events
 
 from tkinter import *
+import time
 
 ####################################
 # customize these functions
 ####################################
 
 raftX = 300 - 35
+grain1 = (False, False, 325, 200)
+grain2 = (False, False, 325, 300)
+grain3 = (False, False, 325, 400)
 
 def init(data):
-    data.riceR = 10
-    data.riceX1, data.riceY1 = 325, 200
-    data.riceX2, data.riceY2 = 325, 300
-    data.riceX3, data.riceY3 = 325, 400
+    data.grainR = 10
 
 def mousePressed(event, data):
-    if (325 < event.x < 400) and (550 < event.y < 600):
+    if (325 < event.x < 400) and (575 < event.y < 600):
         solve()
 
 def solve():
+    addGrain()
     cross()
+    removeGrain()
+
+def removeGrain():
+    global grain1, grain2, grain3
+    if grain1[1] == True:
+        grain1 = (True, False, grain1[2], grain1[3])
+    elif grain2[1] == True:
+        grain2 = (True, False, grain2[2], grain2[3])
+    elif grain3[1] == True:
+        grain3 = (True, False, grain3[2], grain3[3])
+
+def addGrain():
+    global grain1, grain2, grain3
+    if grain1[0] == False:
+        grain1 = (False, True, grain1[2], grain1[3])
+    elif grain2[0] == False:
+        grain2 = (False, True, grain2[2], grain2[3])
+    elif grain3[0] == False:
+        grain3 = (False, True, grain3[2], grain3[3])
 
 def cross():
     global raftX
-    raftX = 100
+    if raftX == 265:
+        raftX = 100
+    else:
+        raftX = 265
 
 def keyPressed(event, data):
     pass
 
 def timerFired(data):
-    print(raftX)
+    pass
 
 def redrawAll(canvas, data):
     drawBackground(canvas, data)
 
+def drawRice(canvas, data):
+    global raftX, grain1, grain2, grain3
+    if grain1[1]:
+        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
+                           raftX + 15 + data.grainR, 285 + data.grainR)
+        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
+                           grain2[2] + data.grainR, grain2[3] + data.grainR)
+        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
+                           grain3[2] + data.grainR, grain3[3] + data.grainR)
+    elif grain2[1]:
+        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
+                           raftX + 15 + data.grainR, 285 + data.grainR)
+        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
+                           grain1[2] + data.grainR, grain1[3] + data.grainR)
+        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
+                           grain3[2] + data.grainR, grain3[3] + data.grainR)
+    elif grain3[1]:
+        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
+                           raftX + 15 + data.grainR, 285 + data.grainR)
+        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
+                           grain1[2] + data.grainR, grain1[3] + data.grainR)
+        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
+                           grain2[2] + data.grainR, grain2[3] + data.grainR)
+    else:
+        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
+                           grain1[2] + data.grainR, grain1[3] + data.grainR)
+        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
+                           grain2[2] + data.grainR, grain2[3] + data.grainR)
+        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
+                           grain3[2] + data.grainR, grain3[3] + data.grainR)
+
 def drawBackground(canvas, data):
     canvas.create_rectangle(0, 0, 400, 600, fill = "green")
     canvas.create_rectangle(100, 0, 300, 600, fill = "blue")
+    canvas.create_rectangle(325, 575, 400, 600, fill = "white")
     canvas.create_text(400, 600, text = "EXECUTE", anchor = SE, font = 40)
     # raft
     canvas.create_rectangle(raftX, 270, raftX + 35,
@@ -49,13 +105,7 @@ def drawBackground(canvas, data):
     canvas.create_line(raftX + 5, 272, raftX + 10, 266)
     canvas.create_line(raftX, 286, raftX + 5, 280)
     canvas.create_line(raftX + 5, 280, raftX + 10, 286)
-    # rice
-    canvas.create_oval(data.riceX1 - data.riceR, data.riceY1 - data.riceR,
-                       data.riceX1 + data.riceR, data.riceY1 + data.riceR)
-    canvas.create_oval(data.riceX2 - data.riceR, data.riceY2 - data.riceR,
-                       data.riceX2 + data.riceR, data.riceY2 + data.riceR)
-    canvas.create_oval(data.riceX3 - data.riceR, data.riceY3 - data.riceR,
-                       data.riceX3 + data.riceR, data.riceY3 + data.riceR)
+    drawRice(canvas, data)
 
 ####################################
 # use the run function as-is
