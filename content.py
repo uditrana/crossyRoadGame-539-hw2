@@ -7,39 +7,48 @@ from tkinter import *
 # customize these functions
 ####################################
 
+raftX = 300 - 35
+
 def init(data):
-    data.raftX = 215
     data.riceR = 10
     data.riceX1, data.riceY1 = 325, 200
     data.riceX2, data.riceY2 = 325, 300
     data.riceX3, data.riceY3 = 325, 400
 
 def mousePressed(event, data):
-    pass
+    if (325 < event.x < 400) and (550 < event.y < 600):
+        solve()
+
+def solve():
+    cross()
+
+def cross():
+    global raftX
+    raftX = 100
 
 def keyPressed(event, data):
     pass
 
 def timerFired(data):
-    pass
+    print(raftX)
 
 def redrawAll(canvas, data):
     drawBackground(canvas, data)
 
 def drawBackground(canvas, data):
     canvas.create_rectangle(0, 0, 400, 600, fill = "green")
-    canvas.create_rectangle(150, 0, 250, 600, fill = "blue")
+    canvas.create_rectangle(100, 0, 300, 600, fill = "blue")
     canvas.create_text(400, 600, text = "EXECUTE", anchor = SE, font = 40)
     # raft
-    canvas.create_rectangle(data.raftX, 270, data.raftX + 35,
+    canvas.create_rectangle(raftX, 270, raftX + 35,
                             300, fill = "brown")
     # person
-    canvas.create_oval(data.raftX + 2, 260, data.raftX + 8, 266, fill = "black")
-    canvas.create_line(data.raftX + 5, 266, data.raftX + 5, 280)
-    canvas.create_line(data.raftX, 266, data.raftX + 5, 272)
-    canvas.create_line(data.raftX + 5, 272, data.raftX + 10, 266)
-    canvas.create_line(data.raftX, 286, data.raftX + 5, 280)
-    canvas.create_line(data.raftX + 5, 280, data.raftX + 10, 286)
+    canvas.create_oval(raftX + 2, 260, raftX + 8, 266, fill = "black")
+    canvas.create_line(raftX + 5, 266, raftX + 5, 280)
+    canvas.create_line(raftX, 266, raftX + 5, 272)
+    canvas.create_line(raftX + 5, 272, raftX + 10, 266)
+    canvas.create_line(raftX, 286, raftX + 5, 280)
+    canvas.create_line(raftX + 5, 280, raftX + 10, 286)
     # rice
     canvas.create_oval(data.riceX1 - data.riceR, data.riceY1 - data.riceR,
                        data.riceX1 + data.riceR, data.riceY1 + data.riceR)
