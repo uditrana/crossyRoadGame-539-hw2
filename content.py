@@ -11,47 +11,68 @@ import time
 
 class Raft(object):
     def __init__(self):
-        self.side = False;
-        self.inBoat = None;
-        self.x = 300-35
+        self.position = False
+        self.inBoat = None
+        self.x = 283  # center coordinates
         self.y = 270
         self.width = 35
         self.height = 30
-    
-    def draw(self, canvas):
-        canvas.create_rectangle(self.x,self.y,self.x+self.width,self.y+self.height, fill="brown")
 
-class Grain(object):
+    def draw(self, canvas):
+        canvas.create_rectangle(self.x - self.width / 2, self.y - self.height / 2,
+                                self.x + self.width / 2, self.y + self.height / 2, fill="brown")
+
+    def loadRaft(self, obj):
+        self.inBoat = obj
+        obj.getInRaft(self)
+
+
+class Passenger(object):
     def __init__(self, ycord):
-        self.side = False
-        self.inBoat = False
+        self.position = False  # true=left, None = inBoat, false = right
         self.x = 325
         self.y = ycord
+
+    def getInRaft(self, raft):
+        self.position = None
+        self.x = raft.x
+        self.y = raft.y
+
+
+class Grain(Passenger):
+    def __init__(self, ycord):
+        super().__init__(ycord)
         self.r = 10
-    def switchSides(self):
-        self.side = not self.side
+
     def draw(self, canvas):
-        canvas.create_oval(self.x-self.r,self.y-self.r,self.x+self.r,self.y+self.r)
-    
-mainRaft = Raft()
+        canvas.create_oval(self.x - self.r, self.y - self.r,
+                           self.x + self.r, self.y + self.r)
+
+
+raft = Raft()
 grain1 = Grain(200)
 grain2 = Grain(300)
 grain3 = Grain(400)
+grainList = [grain1, grain2, grain3]
+
 
 def init(data):
     pass
 
+
 def mousePressed(event, data):
     if (325 < event.x < 400) and (575 < event.y < 600):
-        solve()
+        studentInput()
 
-def solve():
+
+def studentInput():
     addGrain()
-    cross()
-    removeGrain()
+    # cross()
+    # removeGrain()
+
 
 def removeGrain():
-    global grain1, grain2, grain3
+    global raft, grain1, grain2, grain3
     if grain1[1] == True:
         grain1 = (True, False, grain1[2], grain1[3])
     elif grain2[1] == True:
@@ -59,45 +80,46 @@ def removeGrain():
     elif grain3[1] == True:
         grain3 = (True, False, grain3[2], grain3[3])
 
+
 def addGrain():
-    global grain1, grain2, grain3
-    if grain1[0] == False:
-        grain1 = (False, True, grain1[2], grain1[3])
-    elif grain2[0] == False:
-        grain2 = (False, True, grain2[2], grain2[3])
-    elif grain3[0] == False:
-        grain3 = (False, True, grain3[2], grain3[3])
+    global raft, grainList
+    for grain in grainList:
+        if grain.position == raft.position:
+            raft.loadRaft(grain)
+            break
 
 
 def cross():
-    global raftX
+    global raft, grainList
     if raftX == 265:
         raftX = 100
     else:
         raftX = 265
 
+
 def keyPressed(event, data):
     pass
+
 
 def timerFired(data):
     pass
 
+
 def redrawAll(canvas, data):
     drawBackground(canvas, data)
-    
+
 
 def drawBackground(canvas, data):
-    global mainRaft, grain1, grain2, grain3
-    canvas.create_rectangle(0, 0, 400, 600, fill = "green")
-    canvas.create_rectangle(100, 0, 300, 600, fill = "blue")
-    canvas.create_rectangle(325, 575, 400, 600, fill = "white")
-    canvas.create_text(400, 600, text = "EXECUTE", anchor = SE, font = 40)
+    global raft, grainList
+    canvas.create_rectangle(0, 0, 400, 600, fill="green")
+    canvas.create_rectangle(100, 0, 300, 600, fill="blue")
+    canvas.create_rectangle(325, 575, 400, 600, fill="white")
+    canvas.create_text(400, 600, text="EXECUTE", anchor=SE, font=40)
     # raft
-    mainRaft.draw(canvas)
-    #rice
-    grain1.draw(canvas)
-    grain2.draw(canvas)
-    grain3.draw(canvas)
+    raft.draw(canvas)
+    # rice
+    for grain in grainList:
+        grain.draw(canvas)
 
     # person
     # canvas.create_oval(raftX + 2, 260, raftX + 8, 266, fill = "black")
@@ -111,13 +133,14 @@ def drawBackground(canvas, data):
 # use the run function as-is
 ####################################
 
+
 def run(width, height):
     def redrawAllWrapper(canvas, data):
         canvas.delete(ALL)
         canvas.create_rectangle(0, 0, data.width, data.height,
                                 fill='white', width=0)
         redrawAll(canvas, data)
-        canvas.update()    
+        canvas.update()
 
     def mousePressedWrapper(event, canvas, data):
         mousePressed(event, data)
@@ -133,11 +156,13 @@ def run(width, height):
         # pause, then call timerFired again
         canvas.after(data.timerDelay, timerFiredWrapper, canvas, data)
     # Set up data and call init
-    class Struct(object): pass
+
+    class Struct(object):
+        pass
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 100 # milliseconds
+    data.timerDelay = 100  # milliseconds
     init(data)
     # create the root and the canvas
     root = Tk()
@@ -145,12 +170,13 @@ def run(width, height):
     canvas.pack()
     # set up events
     root.bind("<Button-1>", lambda event:
-                            mousePressedWrapper(event, canvas, data))
+              mousePressedWrapper(event, canvas, data))
     root.bind("<Key>", lambda event:
-                            keyPressedWrapper(event, canvas, data))
+              keyPressedWrapper(event, canvas, data))
     timerFiredWrapper(canvas, data)
     # and launch the app
     root.mainloop()  # blocks until window is closed
     print("bye!")
+
 
 run(400, 600)
