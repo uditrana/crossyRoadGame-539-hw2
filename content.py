@@ -14,7 +14,7 @@ class raft(object):
     def init(self, ycord):
         self.side = False;
         self.inBoat = None;
-        self.x = 100
+        self.x = 300-35
         self.y = 270
 
 class grain(object):
@@ -82,34 +82,7 @@ def redrawAll(canvas, data):
 
 def drawRice(canvas, data):
     global raftX, grain1, grain2, grain3, grainImage
-    if grain1[1]:
-        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
-                           raftX + 15 + data.grainR, 285 + data.grainR)
-        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
-                           grain2[2] + data.grainR, grain2[3] + data.grainR)
-        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
-                           grain3[2] + data.grainR, grain3[3] + data.grainR)
-    elif grain2[1]:
-        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
-                           raftX + 15 + data.grainR, 285 + data.grainR)
-        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
-                           grain1[2] + data.grainR, grain1[3] + data.grainR)
-        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
-                           grain3[2] + data.grainR, grain3[3] + data.grainR)
-    elif grain3[1]:
-        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
-                           raftX + 15 + data.grainR, 285 + data.grainR)
-        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
-                           grain1[2] + data.grainR, grain1[3] + data.grainR)
-        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
-                           grain2[2] + data.grainR, grain2[3] + data.grainR)
-    else:
-        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
-                           grain1[2] + data.grainR, grain1[3] + data.grainR)
-        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
-                           grain2[2] + data.grainR, grain2[3] + data.grainR)
-        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
-                           grain3[2] + data.grainR, grain3[3] + data.grainR)
+    
 
 def drawBackground(canvas, data):
     canvas.create_rectangle(0, 0, 400, 600, fill = "green")
