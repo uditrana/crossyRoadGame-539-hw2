@@ -9,7 +9,23 @@ import time
 ####################################
 
 raftX = 300 - 35
-# (if on left, if on boat, x, y)
+
+class raft(object):
+    def init(self, ycord):
+        self.side = False;
+        self.inBoat = None;
+        self.x = 
+
+class grain(object):
+    def init(self, ycord):
+        self.side = False
+        self.inBoat = False
+        self.x = 325
+        self.y = ycord
+    def switchSides(self):
+        self.side = not self.side
+    def 
+
 grain1 = (False, False, 325, 200)
 grain2 = (False, False, 325, 300)
 grain3 = (False, False, 325, 400)
@@ -24,27 +40,26 @@ def mousePressed(event, data):
 def solve():
     addGrain()
     cross()
-    removeGrain()    
+    removeGrain()
 
 def removeGrain():
     global grain1, grain2, grain3
-    if raftX == 100:
-        if grain1[1] == True:
-            grain1 = (True, False, 50, 200)
-        elif grain2[1] == True:
-            grain2 = (True, False, 50, 300)
-        elif grain3[1] == True:
-            grain3 = (True, False, 50, 400)
+    if grain1[1] == True:
+        grain1 = (True, False, grain1[2], grain1[3])
+    elif grain2[1] == True:
+        grain2 = (True, False, grain2[2], grain2[3])
+    elif grain3[1] == True:
+        grain3 = (True, False, grain3[2], grain3[3])
 
 def addGrain():
-    global raftX, grain1, grain2, grain3
-    if raftX == 265:
-        if grain1[0] == False:
-            grain1 = (False, True, raftX + 15, 285)
-        elif grain2[0] == False:
-            grain2 = (False, True, raftX + 15, 285)
-        elif grain3[0] == False:
-            grain3 = (False, True, raftX + 15, 285)
+    global grain1, grain2, grain3
+    if grain1[0] == False:
+        grain1 = (False, True, grain1[2], grain1[3])
+    elif grain2[0] == False:
+        grain2 = (False, True, grain2[2], grain2[3])
+    elif grain3[0] == False:
+        grain3 = (False, True, grain3[2], grain3[3])
+
 
 def cross():
     global raftX
@@ -61,16 +76,37 @@ def timerFired(data):
 
 def redrawAll(canvas, data):
     drawBackground(canvas, data)
-    drawRice(canvas, data)
 
 def drawRice(canvas, data):
-    global grain1, grain2, grain3
-    canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
-                       grain1[2] + data.grainR, grain1[3] + data.grainR)
-    canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
-                       grain2[2] + data.grainR, grain2[3] + data.grainR)
-    canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
-                       grain3[2] + data.grainR, grain3[3] + data.grainR)
+    global raftX, grain1, grain2, grain3, grainImage
+    if grain1[1]:
+        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
+                           raftX + 15 + data.grainR, 285 + data.grainR)
+        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
+                           grain2[2] + data.grainR, grain2[3] + data.grainR)
+        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
+                           grain3[2] + data.grainR, grain3[3] + data.grainR)
+    elif grain2[1]:
+        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
+                           raftX + 15 + data.grainR, 285 + data.grainR)
+        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
+                           grain1[2] + data.grainR, grain1[3] + data.grainR)
+        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
+                           grain3[2] + data.grainR, grain3[3] + data.grainR)
+    elif grain3[1]:
+        canvas.create_oval(raftX + 15 - data.grainR, 285 - data.grainR,
+                           raftX + 15 + data.grainR, 285 + data.grainR)
+        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
+                           grain1[2] + data.grainR, grain1[3] + data.grainR)
+        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
+                           grain2[2] + data.grainR, grain2[3] + data.grainR)
+    else:
+        canvas.create_oval(grain1[2] - data.grainR, grain1[3] - data.grainR,
+                           grain1[2] + data.grainR, grain1[3] + data.grainR)
+        canvas.create_oval(grain2[2] - data.grainR, grain2[3] - data.grainR,
+                           grain2[2] + data.grainR, grain2[3] + data.grainR)
+        canvas.create_oval(grain3[2] - data.grainR, grain3[3] - data.grainR,
+                           grain3[2] + data.grainR, grain3[3] + data.grainR)
 
 def drawBackground(canvas, data):
     canvas.create_rectangle(0, 0, 400, 600, fill = "green")
@@ -87,6 +123,7 @@ def drawBackground(canvas, data):
     canvas.create_line(raftX + 5, 272, raftX + 10, 266)
     canvas.create_line(raftX, 286, raftX + 5, 280)
     canvas.create_line(raftX + 5, 280, raftX + 10, 286)
+    drawRice(canvas, data)
 
 ####################################
 # use the run function as-is
