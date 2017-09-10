@@ -12,31 +12,53 @@ import time
 class Raft(object):
     def __init__(self):
         self.position = False
-        self.inBoat = None
-        self.x = 283  # center coordinates
+        self.inRaft = None
+        self.x = 290  # center coordinates
         self.y = 270
         self.width = 35
         self.height = 30
+
+    def cross(self):
+        self.position = not self.position
+        self.x = 110
+        if self.inRaft != None:
+            self.inRaft.x = self.x
+            self.inRaft.y = self.y
 
     def draw(self, canvas):
         canvas.create_rectangle(self.x - self.width / 2, self.y - self.height / 2,
                                 self.x + self.width / 2, self.y + self.height / 2, fill="brown")
 
-    def loadRaft(self, obj):
-        self.inBoat = obj
+    def boardRaft(self, obj):
+        self.inRaft = obj
         obj.getInRaft(self)
+
+    def deboardRaft(self):
+        self.inRaft.getOffRaft(raft)
+        self.inRaft = None
 
 
 class Passenger(object):
     def __init__(self, ycord):
-        self.position = False  # true=left, None = inBoat, false = right
-        self.x = 325
+        self.position = False  # true=left, None = inRaft, false = right
+        self.leftX = 75
+        self.rightX = 325
+        self.x = self.rightX  # current spot
+        self.restingY = ycord  # y cord for while not in boat
         self.y = ycord
 
     def getInRaft(self, raft):
         self.position = None
         self.x = raft.x
         self.y = raft.y
+
+    def getOffRaft(self, raft):
+        self.position = raft.position
+        self.y = self.restingY
+        if self.position == False:
+            self.x = self.rightX
+        else:
+            self.x = self.leftX
 
 
 class Grain(Passenger):
@@ -67,34 +89,40 @@ def mousePressed(event, data):
 
 def studentInput():
     addGrain()
-    # cross()
-    # removeGrain()
+    cross()
+    removeGrain()
+    cross()
+    addGrain()
+    cross()
+    removeGrain()
+    cross()
+    addGrain()
+    cross()
+    removeGrain()
 
 
 def removeGrain():
-    global raft, grain1, grain2, grain3
-    if grain1[1] == True:
-        grain1 = (True, False, grain1[2], grain1[3])
-    elif grain2[1] == True:
-        grain2 = (True, False, grain2[2], grain2[3])
-    elif grain3[1] == True:
-        grain3 = (True, False, grain3[2], grain3[3])
+    global raft, grainList
+    if raft.inRaft == None:
+        print("Raft already empty!")
+        return
+    raft.deboardRaft()
 
 
 def addGrain():
     global raft, grainList
+    if raft.inRaft != None:
+        print("Raft already has something in it!")
+        return
     for grain in grainList:
         if grain.position == raft.position:
-            raft.loadRaft(grain)
+            raft.boardRaft(grain)
             break
 
 
 def cross():
     global raft, grainList
-    if raftX == 265:
-        raftX = 100
-    else:
-        raftX = 265
+    raft.cross()
 
 
 def keyPressed(event, data):
