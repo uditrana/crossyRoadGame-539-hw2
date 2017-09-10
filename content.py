@@ -11,16 +11,21 @@ import time
 
 class Raft(object):
     def __init__(self):
-        self.position = False
+        self.position = False  # true is left, False is right
         self.inRaft = None
-        self.x = 290  # center coordinates
+        self.leftX = 110
+        self.rightX = 290
+        self.x = self.rightX  # center coordinates
         self.y = 270
         self.width = 35
         self.height = 30
 
     def cross(self):
         self.position = not self.position
-        self.x = 110
+        if self.position:
+            self.x = self.leftX
+        else:
+            self.x = self.rightX
         if self.inRaft != None:
             self.inRaft.x = self.x
             self.inRaft.y = self.y
@@ -38,7 +43,7 @@ class Raft(object):
         self.inRaft = None
 
 
-class Passenger(object):
+class Passenger(object):  # any passenger. Inherit from this for grain/wolf/chicken
     def __init__(self, ycord):
         self.position = False  # true=left, None = inRaft, false = right
         self.leftX = 75
@@ -71,6 +76,7 @@ class Grain(Passenger):
                            self.x + self.r, self.y + self.r)
 
 
+# global Variables (bleh)
 raft = Raft()
 grain1 = Grain(200)
 grain2 = Grain(300)
@@ -90,15 +96,15 @@ def mousePressed(event, data):
 def studentInput():
     addGrain()
     cross()
-    removeGrain()
-    cross()
-    addGrain()
-    cross()
-    removeGrain()
-    cross()
-    addGrain()
-    cross()
-    removeGrain()
+    # removeGrain()
+    # cross()
+    # addGrain()
+    # cross()
+    # removeGrain()
+    # cross()
+    # addGrain()
+    # cross()
+    # removeGrain()
 
 
 def removeGrain():
