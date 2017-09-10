@@ -14,11 +14,11 @@ Udit Ranasaria: uar
 Preston Vander Vos: pvanderv
 
 ##############################################
-
-This CS1 content game centers around the Wolf, Chicken, and Grain riddle. The object is to ferry each of these 
+This CS1 content game, Inspired from the crossing riddle: https://youtu.be/ADR7dUoVh_c , 
+we decided to make the Wolf, Chicken, and Grain riddle. The object is to ferry each of these 
 animals/items across a river from the right to the left side without isolating either the chicken/grain or the 
-wolf/chicken. For each section, we have the student build up a part of the game until you have the final riddle 
-solved with some extra features!
+wolf/chicken. For each section, we have the student build up a part of the riddle until they have the final riddle 
+solved.
 
 ##############################################
 
@@ -48,7 +48,7 @@ remove()
 
 ##############################################
 
-1C: Implementing what we learned to solve the problem. Helper function
+1C: Implementing what we learned to solve the problem. Helper function is introduced.
 
 Solution:
 
