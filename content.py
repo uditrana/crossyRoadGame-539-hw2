@@ -8,7 +8,6 @@ import time
 # customize these functions
 ####################################
 
-raftX = 300 - 35
 
 class raft(object):
     def init(self, ycord):
@@ -16,6 +15,10 @@ class raft(object):
         self.inBoat = None;
         self.x = 300-35
         self.y = 270
+        self.width = 35
+        self.height = 30
+    def draw(self, canvas):
+        canvas.create_rectangle(self.x,self.y,self.x+self.width,self.y+self.height, fill="Brown")
 
 class grain(object):
     def init(self, ycord):
@@ -23,11 +26,12 @@ class grain(object):
         self.inBoat = False
         self.x = 325
         self.y = ycord
-        self.r = 
+        self.r = 10
     def switchSides(self):
         self.side = not self.side
     def draw(self, canvas):
-        canvas.create_oval()
+        canvas.create_oval(self.x-self.r,self.y-self.r,self.x+self.r,self.y+self.r)
+    
 
 grain1 = (False, False, 325, 200)
 grain2 = (False, False, 325, 300)
@@ -93,12 +97,12 @@ def drawBackground(canvas, data):
     canvas.create_rectangle(raftX, 270, raftX + 35,
                             300, fill = "brown")
     # person
-    canvas.create_oval(raftX + 2, 260, raftX + 8, 266, fill = "black")
-    canvas.create_line(raftX + 5, 266, raftX + 5, 280)
-    canvas.create_line(raftX, 266, raftX + 5, 272)
-    canvas.create_line(raftX + 5, 272, raftX + 10, 266)
-    canvas.create_line(raftX, 286, raftX + 5, 280)
-    canvas.create_line(raftX + 5, 280, raftX + 10, 286)
+    # canvas.create_oval(raftX + 2, 260, raftX + 8, 266, fill = "black")
+    # canvas.create_line(raftX + 5, 266, raftX + 5, 280)
+    # canvas.create_line(raftX, 266, raftX + 5, 272)
+    # canvas.create_line(raftX + 5, 272, raftX + 10, 266)
+    # canvas.create_line(raftX, 286, raftX + 5, 280)
+    # canvas.create_line(raftX + 5, 280, raftX + 10, 286)
     drawRice(canvas, data)
 
 ####################################
