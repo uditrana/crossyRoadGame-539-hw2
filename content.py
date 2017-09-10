@@ -14,7 +14,8 @@ class raft(object):
     def init(self, ycord):
         self.side = False;
         self.inBoat = None;
-        self.x = 
+        self.x = 100
+        self.y = 270
 
 class grain(object):
     def init(self, ycord):
@@ -22,9 +23,11 @@ class grain(object):
         self.inBoat = False
         self.x = 325
         self.y = ycord
+        self.r = 
     def switchSides(self):
         self.side = not self.side
-    def 
+    def draw(self, canvas):
+        canvas.create_oval()
 
 grain1 = (False, False, 325, 200)
 grain2 = (False, False, 325, 300)
