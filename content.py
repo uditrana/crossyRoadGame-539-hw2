@@ -9,19 +9,20 @@ import time
 ####################################
 
 
-class raft(object):
-    def init(self, ycord):
+class Raft(object):
+    def __init__(self):
         self.side = False;
         self.inBoat = None;
         self.x = 300-35
         self.y = 270
         self.width = 35
         self.height = 30
+    
     def draw(self, canvas):
-        canvas.create_rectangle(self.x,self.y,self.x+self.width,self.y+self.height, fill="Brown")
+        canvas.create_rectangle(self.x,self.y,self.x+self.width,self.y+self.height, fill="brown")
 
-class grain(object):
-    def init(self, ycord):
+class Grain(object):
+    def __init__(self, ycord):
         self.side = False
         self.inBoat = False
         self.x = 325
@@ -32,13 +33,13 @@ class grain(object):
     def draw(self, canvas):
         canvas.create_oval(self.x-self.r,self.y-self.r,self.x+self.r,self.y+self.r)
     
-
-grain1 = (False, False, 325, 200)
-grain2 = (False, False, 325, 300)
-grain3 = (False, False, 325, 400)
+mainRaft = Raft()
+grain1 = Grain(200)
+grain2 = Grain(300)
+grain3 = Grain(400)
 
 def init(data):
-    data.grainR = 10
+    pass
 
 def mousePressed(event, data):
     if (325 < event.x < 400) and (575 < event.y < 600):
@@ -83,19 +84,21 @@ def timerFired(data):
 
 def redrawAll(canvas, data):
     drawBackground(canvas, data)
-
-def drawRice(canvas, data):
-    global raftX, grain1, grain2, grain3, grainImage
     
 
 def drawBackground(canvas, data):
+    global mainRaft, grain1, grain2, grain3
     canvas.create_rectangle(0, 0, 400, 600, fill = "green")
     canvas.create_rectangle(100, 0, 300, 600, fill = "blue")
     canvas.create_rectangle(325, 575, 400, 600, fill = "white")
     canvas.create_text(400, 600, text = "EXECUTE", anchor = SE, font = 40)
     # raft
-    canvas.create_rectangle(raftX, 270, raftX + 35,
-                            300, fill = "brown")
+    mainRaft.draw(canvas)
+    #rice
+    grain1.draw(canvas)
+    grain2.draw(canvas)
+    grain3.draw(canvas)
+
     # person
     # canvas.create_oval(raftX + 2, 260, raftX + 8, 266, fill = "black")
     # canvas.create_line(raftX + 5, 266, raftX + 5, 280)
@@ -103,7 +106,6 @@ def drawBackground(canvas, data):
     # canvas.create_line(raftX + 5, 272, raftX + 10, 266)
     # canvas.create_line(raftX, 286, raftX + 5, 280)
     # canvas.create_line(raftX + 5, 280, raftX + 10, 286)
-    drawRice(canvas, data)
 
 ####################################
 # use the run function as-is
