@@ -75,7 +75,8 @@ class Grain(Passenger):
     def draw(self, canvas):
         canvas.create_oval(self.x - self.r, self.y - self.r,
                            self.x + self.r, self.y + self.r,
-                           fill = 'yellow')
+                           fill='yellow')
+
 
 class Wolf(Passenger):
     def __init__(self, ycord):
@@ -86,7 +87,9 @@ class Wolf(Passenger):
     def draw(self, canvas):
         canvas.create_oval(self.x - self.r, self.y - self.r,
                            self.x + self.r, self.y + self.r,
-                           fill = 'grey')
+                           fill='grey')
+
+
 class Chicken(Passenger):
     def __init__(self, ycord):
         super().__init__(ycord)
@@ -96,7 +99,7 @@ class Chicken(Passenger):
     def draw(self, canvas):
         canvas.create_oval(self.x - self.r, self.y - self.r,
                            self.x + self.r, self.y + self.r,
-                           fill = 'red')
+                           fill='red')
 
 
 # global Variables (bleh)
@@ -110,14 +113,19 @@ chicken = Chicken(200)
 wolf = Wolf(300)
 grain = Grain(400)
 
+studentInpFile = open('studentInput2.txt', 'r')
+
 
 def init(data):
     pass
 
+
 def pause():
+    return
     programPause = input("Press the <ENTER> key to execute next command...")
 
-## This function is for the execute button on UI
+
+# This function is for the execute button on UI
 def mousePressed(event, data):
     global running
     if (running):
@@ -132,31 +140,34 @@ def conditionalAddGrain():
     pause()
     global isFull
     print("Checking condition...")
-    #broken function to be fixed by student in 2A
+    # broken function to be fixed by student in 2A
     if(isFull):
-        print ("Raft is full!")
+        print("Raft is full!")
     else:
         addGrain()
+
 
 def conditionalAddChicken():
     pause()
     global isFull
     print("Checking condition...")
-    #broken function to be fixed by student in 2A
+    # broken function to be fixed by student in 2A
     if(not isFull):
         addChicken()
     else:
-        print ("Raft is full!")
+        print("Raft is full!")
+
 
 def conditionalAddWolf():
     pause()
     global isFull
     print("Checking condition...")
-    #broken function to be fixed by student in 2A
+    # broken function to be fixed by student in 2A
     if(not isFull):
         addWolf()
     else:
-        print ("Raft is full!")
+        print("Raft is full!")
+
 
 def conditionalRemoveGrain():
     pause()
@@ -165,7 +176,8 @@ def conditionalRemoveGrain():
     if(grainOnBoard):
         removeGrain()
     else:
-        print ("Grain is not onboard!")
+        print("Grain is not onboard!")
+
 
 def conditionalRemoveChicken():
     pause()
@@ -174,7 +186,8 @@ def conditionalRemoveChicken():
     if(chickenOnBoard):
         removeChicken()
     else:
-        print ("Chicken is not onboard!")
+        print("Chicken is not onboard!")
+
 
 def conditionalRemoveWolf():
     pause()
@@ -183,80 +196,78 @@ def conditionalRemoveWolf():
     if(wolfOnBoard):
         removeWolf()
     else:
-        print ("Wolf is not onboard!")
+        print("Wolf is not onboard!")
+
 
 def wolfOnLeft():
     global wolf
     return wolf.shore
-    
+
+
 def chickenOnLeft():
     global chicken
     return chicken.shore
-    
+
+
 def grainOnLeft():
     global grain
-    return grain.shore   
+    return grain.shore
+
 
 def raftOnLeft():
     global raft
     return raft.position
 
+
 def raftOnRight():
     return not raftOnLeft()
 
+
 def wolfOnRight():
     return not wolfOnLeft()
-    
+
+
 def chickenOnRight():
     return not chickenOnLeft()
-    
+
+
 def grainOnRight():
-    return not grainOnLeft();
+    return not grainOnLeft()
 
 
 def didIWin():
-    #this function will be rewritten in exercise 2B
+    # this function will be rewritten in exercise 2B
     if (wolfOnLeft() and chickenOnLeft() and grainOnLeft()):
         return True
     else:
         return False
 
+
 def finish():
-    #this function will be rewritten in exercise 2B
+    # this function will be rewritten in exercise 2B
     if (didIWin()):
-        print ("Done!")
+        print("Done!")
     else:
-        print ("Something is not right,yet!")
+        print("Something is not right,yet!")
 
-## for each of the exercises the student will type solution in this function
-## Solutions can be found in exercises.py
+# for each of the exercises the student will type solution in this function
+# Solutions can be found in exercises.py
+
+
 def studentInput():
-
+    global studentInpFile2
+    try:
+        (eval(studentInpFile.readline()))
+    except:
+        print("Out of commands")
+        finish()
+        return
     # 2A - demo broken function
     # conditionalRemoveWolf() # <---- this should present a message for failure
     # conditionalAddGrain()
     # conditionalAddGrain() # <---- this should present a message for failure
-    
-    # 2+ (solving the puzzle)
 
-    addChicken()
-    cross()
-    removeChicken()
-    cross()
-    addWolf()
-    cross()
-    removeWolf()
-    addChicken()
-    cross()
-    removeChicken()
-    addGrain()
-    cross()
-    removeGrain()
-    cross()
-    addChicken()
-    cross()
-    removeChicken()
-    finish()
+    # 2+ (solving the puzzle)
 
 
 def removeGrain():
@@ -305,6 +316,7 @@ def addGrain():
     else:
         print("Grain is not on this shore")
 
+
 def addChicken():
     pause()
     global raft, isFull, chickenOnBoard, chicken
@@ -317,6 +329,7 @@ def addChicken():
         isFull = True
     else:
         print("Chicken is not on this shore")
+
 
 def addWolf():
     pause()
@@ -333,12 +346,13 @@ def addWolf():
 
 
 def isValid():
-    #This function will be implemented in exercise 2C
+    # This function will be implemented in exercise 2C
     if ((raftOnLeft() and ((wolfOnRight() and chickenOnRight()) or (chickenOnRight() and grainOnRight())))
-        or (raftOnRight() and ((wolfOnLeft() and chickenOnLeft()) or (chickenOnLeft() and grainOnLeft())))):
-            return False
+            or (raftOnRight() and ((wolfOnLeft() and chickenOnLeft()) or (chickenOnLeft() and grainOnLeft())))):
+        return False
     else:
         return True
+
 
 def cross():
     pause()

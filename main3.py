@@ -75,7 +75,8 @@ class Grain(Passenger):
     def draw(self, canvas):
         canvas.create_oval(self.x - self.r, self.y - self.r,
                            self.x + self.r, self.y + self.r,
-                           fill = 'yellow')
+                           fill='yellow')
+
 
 class Wolf(Passenger):
     def __init__(self, ycord):
@@ -86,7 +87,9 @@ class Wolf(Passenger):
     def draw(self, canvas):
         canvas.create_oval(self.x - self.r, self.y - self.r,
                            self.x + self.r, self.y + self.r,
-                           fill = 'grey')
+                           fill='grey')
+
+
 class Chicken(Passenger):
     def __init__(self, ycord):
         super().__init__(ycord)
@@ -96,7 +99,7 @@ class Chicken(Passenger):
     def draw(self, canvas):
         canvas.create_oval(self.x - self.r, self.y - self.r,
                            self.x + self.r, self.y + self.r,
-                           fill = 'red')
+                           fill='red')
 
 
 # global Variables (bleh)
@@ -106,18 +109,22 @@ chickenOnBoard = False
 wolfOnBoard = False
 running = False
 raft = Raft()
-grainList = [] 
+grainList = []
 for i in range(30):
-    grainList.append(Grain(50+ i*15 ))
+    grainList.append(Grain(50 + i * 15))
 
 
 def init(data):
     pass
 
+
 def pause():
+    return
     programPause = input("Press the <ENTER> key to execute next command...")
 
-## This function is for the execute button on UI
+# This function is for the execute button on UI
+
+
 def mousePressed(event, data):
     global running
     if (running):
@@ -127,30 +134,36 @@ def mousePressed(event, data):
         if (325 < event.x < 400) and (575 < event.y < 600):
             studentInput()
 
+
 def grainOnLeft():
     global grain
-    return grain.shore   
+    return grain.shore
+
 
 def grainOnRight():
-    return not grainOnLeft();
+    return not grainOnLeft()
 
 
 def didIWin():
-    #this function will be rewritten in exercise 2B
+    # this function will be rewritten in exercise 2B
     if (wolfOnLeft() and chickenOnLeft() and grainOnLeft()):
         return True
     else:
         return False
 
-def finish():
-    print ("Done!")
 
-## for each of the exercises the student will type solution in this function
-## Solutions can be found in exercises.py
+def finish():
+    print("Done!")
+
+# for each of the exercises the student will type solution in this function
+# Solutions can be found in exercises.py
+
+
 def moveGrain():
     addGrain()
     cross()
     removeGrain()
+
 
 def studentInput():
 
@@ -158,7 +171,7 @@ def studentInput():
     # conditionalRemoveWolf() # <---- this should present a message for failure
     # conditionalAddGrain()
     # conditionalAddGrain() # <---- this should present a message for failure
-    
+
     # 2+ (solving the puzzle)
 
     for trip in range(30):
@@ -193,28 +206,32 @@ def addGrain():
 def isValid():
     return True
 
+
 def notThere():
     global raft
-    return (raft.x > raft.leftX-10 and raft.x < raft.rightX+10);
+    return (raft.x > raft.leftX - 10 and raft.x < raft.rightX + 10)
+
 
 def step():
     global raft
     if (raft.position):
-        raft.x = raft.x +10
-    else :
-        raft.x = raft.x -10
+        raft.x = raft.x + 10
+    else:
+        raft.x = raft.x - 10
     if raft.inRaft != None:
         raft.inRaft.x = raft.x
+
 
 def animatedCross():
     while(notThere()):
         step()
         pause()
 
+
 def cross():
     pause()
     global raft
-    animatedCross() #<--- to be implemented in task 3B
+    animatedCross()  # <--- to be implemented in task 3B
     raft.cross()
     if not(isValid()):
         print("That was not a valid cross, Game is over!")
@@ -243,7 +260,6 @@ def drawBackground(canvas, data):
     # rice
     for grain in grainList:
         grain.draw(canvas)
-
 
     # person
     # canvas.create_oval(raftX + 2, 260, raftX + 8, 266, fill = "black")

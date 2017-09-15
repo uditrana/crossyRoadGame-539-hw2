@@ -83,30 +83,42 @@ grain1 = Grain(200)
 grain2 = Grain(300)
 grain3 = Grain(400)
 grainList = [grain1, grain2, grain3]
+studentInpFile = open('studentInput1.txt', 'r')
 
 
 def init(data):
     pass
 
-def pause():
-    programPause = input("Press the <ENTER> key to execute next command...")
 
-## This function is for the execute button on UI
+def pause():
+    return
+
+
 def mousePressed(event, data):
     global running
     if not running:
         if (325 < event.x < 400) and (575 < event.y < 600):
             studentInput()
 
+
 def finishExecution():
-    print ("Done!")
-## for each of the exercises the student will type solution in this function
-## Solutions can be found in exercises.py
+    print("Done!")
+# for each of the exercises the student will type solution in this function
+# Solutions can be found in exercises.py
+
+
 def studentInput():
-    addGrain()
-    cross()
-    removeGrain()
-    finishExecution()
+    global studentInpFile1
+    try:
+        (eval(studentInpFile.readline()))
+    except:
+        print("Out of commands")
+        finishExecution()
+        return
+    # addGrain()
+    # cross()
+    # removeGrain()
+    # finishExecution()
     # addGrain()
     # cross()
     # removeGrain()
@@ -141,7 +153,6 @@ def addGrain():
             break
 
 
-
 def cross():
     pause()
     global raft, grainList
@@ -157,20 +168,20 @@ def timerFired(data):
 
 
 def redrawAll(canvas, data):
-    drawBackground(canvas, data)
-
-
-def drawBackground(canvas, data):
     global raft, grainList
-    canvas.create_rectangle(0, 0, 400, 600, fill="green")
-    canvas.create_rectangle(100, 0, 300, 600, fill="blue")
-    canvas.create_rectangle(325, 575, 400, 600, fill="white")
-    canvas.create_text(400, 600, text="START", anchor=SE, font=40)
+    drawBackground(canvas, data)
     # raft
     raft.draw(canvas)
     # rice
     for grain in grainList:
         grain.draw(canvas)
+
+
+def drawBackground(canvas, data):
+    canvas.create_rectangle(0, 0, 400, 600, fill="green")
+    canvas.create_rectangle(100, 0, 300, 600, fill="blue")
+    canvas.create_rectangle(325, 575, 400, 600, fill="white")
+    canvas.create_text(400, 600, text="RUN", anchor=SE, font=40)
 
     # person
     # canvas.create_oval(raftX + 2, 260, raftX + 8, 266, fill = "black")
